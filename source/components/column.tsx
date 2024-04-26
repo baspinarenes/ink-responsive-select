@@ -4,7 +4,14 @@ import {MappedOption} from '../types.js';
 import Checkbox from 'ink-checkbox';
 
 export const Column: React.FC<ColumnProps> = props => {
-	const {columnNo, options, focusedIndex, onChanged, onSubmitted} = props;
+	const {
+		columnNo,
+		columItemCount,
+		options,
+		focusedIndex,
+		onChanged,
+		onSubmitted,
+	} = props;
 
 	return (
 		<Box key={columnNo} flexDirection="column">
@@ -12,7 +19,9 @@ export const Column: React.FC<ColumnProps> = props => {
 				<Checkbox
 					key={option.value}
 					label={option.label}
-					focused={focusedIndex === options.indexOf(option)}
+					focused={
+						focusedIndex === columnNo * columItemCount + options.indexOf(option)
+					}
 					onChanged={onChanged}
 					onSubmitted={onSubmitted}
 				/>
@@ -23,8 +32,9 @@ export const Column: React.FC<ColumnProps> = props => {
 
 export type ColumnProps = {
 	columnNo: number;
-	options: MappedOption[];
+	columItemCount: number;
 	focusedIndex: number;
-	onChanged: (selected: boolean, label: string, index?: number) => void;
-	onSubmitted: (selected: boolean, label: string, index?: number) => void;
+	options: MappedOption[];
+	onChanged?: (selected: boolean, label: string, index?: number) => void;
+	onSubmitted?: (selected: boolean, label: string, index?: number) => void;
 };

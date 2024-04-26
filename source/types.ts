@@ -1,9 +1,9 @@
 export type ResponsiveSelectProps = {
 	options: Option[];
-	initial: string[];
+	initial?: string[];
 	column?: number | 'auto';
-	onChanged: (selectedOptions: Option[]) => void;
-	onSubmitted: (selectedOptions: Option[]) => void;
+	onChanged?: (selectedOptions: MappedOption[]) => void;
+	onSubmitted?: (selectedOptions: MappedOption[]) => void;
 };
 
 export type Option = {

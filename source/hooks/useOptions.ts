@@ -6,7 +6,9 @@ export function useOptions({options, initial}: Props) {
 		options.map(option => ({
 			label: option.label,
 			value: option.value,
-			checked: [option.value, option.label].some(v => initial.includes(v)),
+			checked: [option.value, option.label].some(v =>
+				initial ? initial.includes(v) : false,
+			),
 		})),
 	);
 
@@ -15,5 +17,5 @@ export function useOptions({options, initial}: Props) {
 
 type Props = {
 	options: Option[];
-	initial: string[];
+	initial?: string[];
 };

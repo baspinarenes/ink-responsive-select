@@ -60,37 +60,19 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 			);
 		}
 
-		// Select option
-		// if (input === ' ') {
-		// 	const focusedOption = options[focusedIndex]!;
-		// 	const isSelected = has(selectedOptions, focusedOption);
-
-		// 	if (isSelected) {
-		// 		setSelectedOptions(deleteFrom(selectedOptions, focusedOption));
-		// 	} else {
-		// 		setSelectedOptions(addTo(selectedOptions, focusedOption));
-		// 	}
-
-		// 	onChanged && onChanged(selectedOptions);
-		// }
-
 		// Finish selection
 		if (key.return) {
-			onSubmitted(selectOptions);
+			onSubmitted && onSubmitted(selectOptions);
 		}
 	});
 
-	const handleChange = (checked: boolean, label: string) => {
+	const handleCheckboxChange = (checked: boolean, label: string) => {
 		const modifiedSelectOptions = selectOptions.map(option => {
 			if (option.label === label) return {...option, checked};
 			return option;
 		});
 
-		onChanged(modifiedSelectOptions);
-	};
-
-	const handleSubmit = (checked: boolean, label: string) => {
-		console.log('submit', checked, label);
+		onChanged && onChanged(modifiedSelectOptions);
 	};
 
 	return (
@@ -100,13 +82,13 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 					<Column
 						key={columNo}
 						columnNo={columNo}
+						columItemCount={columnItemCount}
 						options={selectOptions.slice(
 							columNo * columnItemCount,
 							columNo * columnItemCount + columnItemCount,
 						)}
 						focusedIndex={focusedIndex}
-						onChanged={handleChange}
-						onSubmitted={handleSubmit}
+						onChanged={handleCheckboxChange}
 					/>
 				))}
 			</Box>
