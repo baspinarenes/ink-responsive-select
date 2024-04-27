@@ -1,11 +1,13 @@
 import React from 'react';
-import {Text} from 'ink';
+import {Box, Text} from 'ink';
 
 export const Instructions: React.FC = () => {
 	return (
-		<Text italic>
-			Press {'<Arrows>'} to navigate, {'<Space>'} to select, {'<Enter>'} to
-			submit, {'<a>'} to select or deselect all, {'<q>'} to exit.
-		</Text>
+		<Box marginBottom={1}>
+			<Text italic color="gray">
+				Press {'<Space>'} to select, {'<Enter>'} to submit, {'<a>'} to
+				select/deselect all, {'<q>'} to exit.
+			</Text>
+		</Box>
 	);
 };
