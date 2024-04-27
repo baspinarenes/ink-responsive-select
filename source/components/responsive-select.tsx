@@ -12,7 +12,7 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 	const [focusedIndex, setFocusedIndex] = useState(0);
 	const [selectOptions, setSelectOptions] = useState(options);
 	const {columnCount, columnItemCount, columnData} = useDynamicColumn(
-		options,
+		selectOptions,
 		column,
 	);
 	const {exit} = useApp();
@@ -23,7 +23,6 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 			exit();
 		}
 
-		// Navigate options to the top
 		if (key.upArrow) {
 			setFocusedIndex(focusedIndex - 1 < 0 ? 0 : focusedIndex - 1);
 		}
