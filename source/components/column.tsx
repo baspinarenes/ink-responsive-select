@@ -19,6 +19,7 @@ export const Column: React.FC<ColumnProps> = props => {
 				<Checkbox
 					key={option.value}
 					label={option.label}
+					checked={option.checked}
 					focused={
 						focusedIndex === columnNo * columItemCount + options.indexOf(option)
 					}

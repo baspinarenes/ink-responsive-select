@@ -52,7 +52,8 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 			setSelectOptions(
 				options.map(option => ({
 					...option,
-					checked: selectOptions.length !== options.length,
+					checked:
+						selectOptions.filter(o => o.checked).length !== options.length,
 				})),
 			);
 		}

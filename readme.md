@@ -65,12 +65,12 @@ Default: `undefined`
 
 Checkbox identifier. If you are rendering more than one checkbox, it can be used instead of label to identify.
 
-##### defaultChecked
+##### checked
 
 Type: `boolean`\
 Default: `false`
 
-Controls whether the checkbox is selected by default.
+Controls whether the checkbox is checked.
 
 ##### wrapperStyles
 
