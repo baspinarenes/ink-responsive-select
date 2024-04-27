@@ -1,6 +1,6 @@
 {
 	"name": "ink-responsive-select",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "Responsive select component for Ink",
 	"license": "MIT",
 	"repository": "baspinarenes/ink-responsive-select",
@@ -21,7 +21,7 @@
 		"build": "tsc",
 		"dev": "tsc --watch",
 		"test": "prettier --check . && xo && ava",
-		"publish": "npm run build && npm publish"
+		"publish:npm": "npm run build && npm publish"
 	},
 	"files": [
 		"build"

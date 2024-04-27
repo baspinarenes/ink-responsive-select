@@ -17,7 +17,6 @@ export const Column: React.FC<ColumnProps> = props => {
 		<Box key={columnNo} flexDirection="column">
 			{options.map(option => (
 				<Checkbox
-					disableInputHandler
 					key={option.value}
 					label={option.label}
 					focused={
