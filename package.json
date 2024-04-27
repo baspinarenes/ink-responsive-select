@@ -1,6 +1,6 @@
 {
 	"name": "ink-responsive-select",
-	"version": "1.0.15",
+	"version": "1.0.16",
 	"description": "Responsive select component for Ink",
 	"license": "MIT",
 	"repository": "baspinarenes/ink-responsive-select",
@@ -11,8 +11,8 @@
 	},
 	"type": "module",
 	"exports": {
-		"types": "./build/index.d.ts",
-		"default": "./build/index.js"
+		"types": "./build/source/index.d.ts",
+		"default": "./build/source/index.js"
 	},
 	"engines": {
 		"node": ">=16"
