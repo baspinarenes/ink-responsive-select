@@ -1,2 +1,8 @@
-export {ResponsiveSelect as default} from './components/responsive-select.js';
-export {MappedOption} from './types.js';
+export {ResponsiveSelect} from './components/responsive-select.js';
+export type {
+	Option,
+	MappedOption,
+	ResponsiveSelectChangedEventParams,
+	ResponsiveSelectSubmittedEventParams,
+	ResponsiveSelectProps,
+} from './types.js';

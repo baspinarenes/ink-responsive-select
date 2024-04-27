@@ -1,6 +1,6 @@
 {
 	"name": "ink-responsive-select",
-	"version": "1.0.5",
+	"version": "1.0.7",
 	"description": "Responsive select component for Ink",
 	"license": "MIT",
 	"repository": "baspinarenes/ink-responsive-select",
@@ -20,7 +20,8 @@
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsc --watch",
-		"test": "prettier --check . && xo && ava"
+		"test": "prettier --check . && xo && ava",
+		"publish": "npm run build && npm publish"
 	},
 	"files": [
 		"build"
@@ -35,9 +36,11 @@
 	],
 	"dependencies": {
 		"ink": "^4.1.0",
-		"ink-checkbox": "^1.0.2",
-		"meow": "^11.0.0",
-		"react": "^18.2.0"
+		"ink-checkbox": "^1.0.0",
+		"meow": "^11.0.0"
+	},
+	"peerDependencies": {
+		"react": "^18"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^3.0.1",

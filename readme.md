@@ -5,7 +5,7 @@
 ## Install
 
 ```
-$ npm install ink-responsive-select
+$ npm install ink-responsive-select --save
 ```
 
 ## Usage

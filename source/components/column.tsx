@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from 'ink';
 import {MappedOption} from '../types.js';
-import Checkbox from 'ink-checkbox';
+import {Checkbox, CheckboxEventParams} from 'ink-checkbox';
 
 export const Column: React.FC<ColumnProps> = props => {
 	const {
@@ -17,11 +17,19 @@ export const Column: React.FC<ColumnProps> = props => {
 		<Box key={columnNo} flexDirection="column">
 			{options.map(option => (
 				<Checkbox
+					disableInputHandler
 					key={option.value}
 					label={option.label}
 					focused={
 						focusedIndex === columnNo * columItemCount + options.indexOf(option)
 					}
+					styles={{
+						icon: {
+							checked: 'bullet',
+							focused: 'circle',
+							normal: 'circle',
+						},
+					}}
 					onChanged={onChanged}
 					onSubmitted={onSubmitted}
 				/>
@@ -35,6 +43,6 @@ export type ColumnProps = {
 	columItemCount: number;
 	focusedIndex: number;
 	options: MappedOption[];
-	onChanged?: (selected: boolean, label: string, index?: number) => void;
-	onSubmitted?: (selected: boolean, label: string, index?: number) => void;
+	onChanged?: (props: CheckboxEventParams) => void;
+	onSubmitted?: (props: CheckboxEventParams) => void;
 };
