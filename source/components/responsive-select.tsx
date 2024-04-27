@@ -1,18 +1,20 @@
 import React, {useState} from 'react';
 import {Box, useApp, useInput} from 'ink';
-import {MappedOption, ResponsiveSelectProps} from '../types.js';
+import {Option, ResponsiveSelectProps} from '../types.js';
 import {Instructions} from './instructions.js';
 import {useDynamicColumn} from '../hooks/useDynamicColumn.js';
-import {useOptions} from '../hooks/useOptions.js';
 import {Column} from './column.js';
 import {CheckboxEventParams} from 'ink-checkbox';
 
 export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
-	const {options, initial, column = 'auto', onChanged, onSubmitted} = props;
+	const {options, column = 'auto', onChanged, onSubmitted} = props;
 
 	const [focusedIndex, setFocusedIndex] = useState(0);
-	const {selectOptions, setSelectOptions} = useOptions({options, initial});
-	const {columnCount, columnItemCount} = useDynamicColumn(options, column);
+	const [selectOptions, setSelectOptions] = useState(options);
+	const {columnCount, columnItemCount, columnData} = useDynamicColumn(
+		options,
+		column,
+	);
 	const {exit} = useApp();
 	const columnArray = Array.from({length: columnCount}, (_, i) => i);
 
@@ -70,18 +72,16 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 	const handleCheckboxChange = ({label, checked}: CheckboxEventParams) => {
 		const focusedOption = selectOptions.find(
 			option => option.label === label,
-		) as MappedOption;
-		updateSelectOptions(focusedOption, checked);
+		) as Option;
+		focusedOption.checked = checked;
+		updateSelectOptions(focusedOption);
 		onChanged && onChanged({changedOption: focusedOption});
 	};
 
-	const updateSelectOptions = (
-		changedOption: MappedOption,
-		checked: boolean,
-	) => {
+	const updateSelectOptions = (changedOption: Option) => {
 		const modifiedSelectOptions = [...selectOptions].map(option => {
 			if (option.label === changedOption.label)
-				return {...option, checked: checked};
+				return {...option, checked: option.checked};
 			return option;
 		});
 
@@ -96,10 +96,7 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 						key={columNo}
 						columnNo={columNo}
 						columItemCount={columnItemCount}
-						options={selectOptions.slice(
-							columNo * columnItemCount,
-							columNo * columnItemCount + columnItemCount,
-						)}
+						options={columnData[columNo] || []}
 						focusedIndex={focusedIndex}
 						onChanged={handleCheckboxChange}
 					/>

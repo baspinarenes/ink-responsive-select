@@ -8,39 +8,15 @@
 $ npm install ink-responsive-select --save
 ```
 
-## Usage
+## Demo
 
-```jsx
-import React, {useState} from 'react';
-import {render, Box} from 'ink';
-import {Checkbox} from 'ink-responsive-select';
+![](./media/demo/events.gif)
 
-const Playground = () => {
-	const [isFocused, setIsFocused] = useState(false);
+![](./media/demo/default-value.gif)
 
-	// Do something
+![](./media/demo/responsive.gif)
 
-	return (
-		<Box>
-			<Checkbox
-				key={option.value}
-				label={option.label}
-				focused={isFocused}
-				onChanged={(checked, label, index) => {
-					// Action
-				}}
-				onSubmitted={(checked, label, index) => {
-					// Action
-				}}
-			/>
-		</Box>
-	);
-};
-
-render(<Playground />);
-```
-
-<img src="media/demo.gif" width="556">
+![](./media/demo/static.gif)
 
 ## Props
 

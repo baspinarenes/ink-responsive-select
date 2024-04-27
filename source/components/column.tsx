@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from 'ink';
-import {MappedOption} from '../types.js';
+import {Option} from '../types.js';
 import {Checkbox, CheckboxEventParams} from 'ink-checkbox';
 
 export const Column: React.FC<ColumnProps> = props => {
@@ -42,7 +42,7 @@ export type ColumnProps = {
 	columnNo: number;
 	columItemCount: number;
 	focusedIndex: number;
-	options: MappedOption[];
+	options: Option[];
 	onChanged?: (props: CheckboxEventParams) => void;
 	onSubmitted?: (props: CheckboxEventParams) => void;
 };

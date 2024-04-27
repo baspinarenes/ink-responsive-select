@@ -1,24 +1,20 @@
 export type Option = {
 	label: string;
 	value: string;
-};
-
-export type MappedOption = Option & {
 	checked: boolean;
 };
 
 export type ResponsiveSelectSubmittedEventParams = {
-	selectedOptions: MappedOption[];
-	unselectedOptions: MappedOption[];
+	selectedOptions: Option[];
+	unselectedOptions: Option[];
 };
 
 export type ResponsiveSelectChangedEventParams = {
-	changedOption: MappedOption;
+	changedOption: Option;
 };
 
 export type ResponsiveSelectProps = {
 	options: Option[];
-	initial?: string[];
 	column?: number | 'auto';
 	onChanged?: ({changedOption}: ResponsiveSelectChangedEventParams) => void;
 	onSubmitted?: ({
