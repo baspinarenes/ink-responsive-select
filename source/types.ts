@@ -1,3 +1,5 @@
+import {ForegroundColorName} from 'chalk';
+
 export type Option = {
 	label: string;
 	value: string;
@@ -15,6 +17,12 @@ export type ResponsiveSelectChangedEventParams = {
 
 export type ResponsiveSelectProps = {
 	options: Option[];
+	loading?:
+		| boolean
+		| {
+				text: string;
+				color: ForegroundColorName;
+		  };
 	column?: number | 'auto';
 	onChanged?: ({changedOption}: ResponsiveSelectChangedEventParams) => void;
 	onSubmitted?: ({

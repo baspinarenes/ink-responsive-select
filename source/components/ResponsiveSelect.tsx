@@ -1,13 +1,19 @@
-import React, {useState} from 'react';
-import {Box, useApp, useInput} from 'ink';
+import React, {useEffect, useState} from 'react';
+import {Box, Text, useApp, useInput} from 'ink';
 import {Option, ResponsiveSelectProps} from '../types.js';
-import {Instructions} from './instructions.js';
+import {Instructions} from './Insturctions.js';
 import {useDynamicColumn} from '../hooks/useDynamicColumn.js';
-import {Column} from './column.js';
+import {Column} from './Column.js';
 import {CheckboxEventParams} from 'ink-checkbox';
 
 export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
-	const {options, column = 'auto', onChanged, onSubmitted} = props;
+	const {
+		options,
+		column = 'auto',
+		loading: loadingProps,
+		onChanged,
+		onSubmitted,
+	} = props;
 
 	const [focusedIndex, setFocusedIndex] = useState(0);
 	const [selectOptions, setSelectOptions] = useState(options);
@@ -17,6 +23,22 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 	);
 	const {exit} = useApp();
 	const columnArray = Array.from({length: columnCount}, (_, i) => i);
+
+	const loading = {
+		enabled: loadingProps,
+		text:
+			typeof loadingProps === 'object'
+				? loadingProps.text
+				: 'Options is loading...',
+		color:
+			typeof loadingProps === 'object'
+				? loadingProps.color ?? 'yellow'
+				: 'yellow',
+	};
+
+	useEffect(() => {
+		setSelectOptions(options);
+	}, [options]);
 
 	useInput((input, key) => {
 		if (input === 'q' || key.escape || key.backspace) {
@@ -87,20 +109,29 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 		setSelectOptions(modifiedSelectOptions);
 	};
 
+	const hasOptions = selectOptions?.length > 0;
+
 	return (
 		<Box flexDirection="column" gap={1}>
-			<Box flexDirection="row" flexWrap="wrap" columnGap={5}>
-				{columnArray.map(columNo => (
-					<Column
-						key={columNo}
-						columnNo={columNo}
-						columItemCount={columnItemCount}
-						options={columnData[columNo] || []}
-						focusedIndex={focusedIndex}
-						onChanged={handleCheckboxChange}
-					/>
-				))}
-			</Box>
+			{!hasOptions && loading.enabled && (
+				<Text italic dimColor color={loading.color}>
+					{loading.text}
+				</Text>
+			)}
+			{hasOptions && (
+				<Box flexDirection="row" flexWrap="wrap" columnGap={5}>
+					{columnArray.map(columNo => (
+						<Column
+							key={columNo}
+							columnNo={columNo}
+							columItemCount={columnItemCount}
+							options={columnData[columNo] || []}
+							focusedIndex={focusedIndex}
+							onChanged={handleCheckboxChange}
+						/>
+					))}
+				</Box>
+			)}
 			<Instructions />
 		</Box>
 	);

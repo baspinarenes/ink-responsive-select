@@ -1,4 +1,4 @@
-export {ResponsiveSelect} from './components/responsive-select.js';
+export {ResponsiveSelect} from './components/ResponsiveSelect.js';
 export type {
 	Option,
 	ResponsiveSelectChangedEventParams,
