@@ -11,10 +11,6 @@ export type ResponsiveSelectSubmittedEventParams = {
 	unselectedOptions: Option[];
 };
 
-export type ResponsiveSelectChangedEventParams = {
-	changedOption: Option;
-};
-
 export type ResponsiveSelectProps = {
 	sortBy?: 'desc' | 'asc';
 	options: Option[];
@@ -25,7 +21,7 @@ export type ResponsiveSelectProps = {
 				color: ForegroundColorName;
 		  };
 	column?: number | 'auto';
-	onChanged?: ({changedOption}: ResponsiveSelectChangedEventParams) => void;
+	onChanged?: (changedOption: Option) => void;
 	onSubmitted?: ({
 		selectedOptions,
 		unselectedOptions,

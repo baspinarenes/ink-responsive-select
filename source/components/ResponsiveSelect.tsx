@@ -3,9 +3,8 @@ import {Box, Text, useApp, useInput} from 'ink';
 import {Option, ResponsiveSelectProps} from '../types.js';
 import {Instructions} from './Insturctions.js';
 import {useDynamicColumn} from '../hooks/useDynamicColumn.js';
-import {Column} from './Column.js';
-import {CheckboxEventParams} from 'ink-checkbox';
 import {sortByAlphabetically} from '../utils.js';
+import {Checkbox, CheckboxEventParams} from 'ink-checkbox';
 
 export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 	const {
@@ -17,20 +16,20 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 		onSubmitted,
 	} = props;
 
-	const sortedOptions = sortBy
+	const manipulatedOptions = sortBy
 		? options.sort((prev, curr) =>
 				sortByAlphabetically(sortBy, prev.label, curr.label),
 		  )
 		: options;
 
 	const [focusedIndex, setFocusedIndex] = useState(0);
-	const [selectOptions, setSelectOptions] = useState(sortedOptions);
-	const {columnCount, columnItemCount, columnData} = useDynamicColumn(
+	const [selectOptions, setSelectOptions] = useState(manipulatedOptions);
+	const {columnHeight, columnItemCount} = useDynamicColumn(
 		selectOptions,
 		column,
 	);
+
 	const {exit} = useApp();
-	const columnArray = Array.from({length: columnCount}, (_, i) => i);
 
 	const loading = {
 		enabled: loadingProps,
@@ -44,73 +43,65 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 				: 'yellow',
 	};
 
-	useEffect(() => setSelectOptions(sortedOptions), [options]);
+	useEffect(() => setSelectOptions(manipulatedOptions), [options]);
 
 	useInput((input, key) => {
 		if (input === 'q' || key.escape || key.backspace) exit();
 
-		if (key.upArrow) {
-			setFocusedIndex(focusedIndex - 1 < 0 ? 0 : focusedIndex - 1);
+		if (key.upArrow && focusedIndex > 0) {
+			setFocusedIndex(focusedIndex - 1);
 		}
 
-		if (key.downArrow) {
-			setFocusedIndex(
-				focusedIndex >= options.length - 1 ? focusedIndex : focusedIndex + 1,
-			);
+		if (key.downArrow && focusedIndex < options.length - 1) {
+			setFocusedIndex(focusedIndex + 1);
 		}
 
-		if (key.rightArrow) {
-			setFocusedIndex(
-				focusedIndex + columnItemCount + 1 > options.length
-					? focusedIndex
-					: focusedIndex + columnItemCount,
-			);
+		if (key.rightArrow && focusedIndex + columnItemCount < options.length) {
+			setFocusedIndex(focusedIndex + columnItemCount);
 		}
 
-		if (key.leftArrow) {
-			setFocusedIndex(
-				focusedIndex - columnItemCount < 0
-					? focusedIndex
-					: focusedIndex - columnItemCount,
-			);
+		if (key.leftArrow && focusedIndex - columnItemCount >= 0) {
+			setFocusedIndex(focusedIndex - columnItemCount);
 		}
 
-		if (input.toLowerCase() === 'a') {
-			setSelectOptions(
-				options.map(option => ({
-					...option,
-					checked:
-						selectOptions.filter(o => o.checked).length !== options.length,
-				})),
-			);
-		}
+		if (input.toLowerCase() === 'a') selectAllOptions();
 
-		if (key.return) {
-			onSubmitted &&
-				onSubmitted({
-					selectedOptions: selectOptions.filter(option => option.checked),
-					unselectedOptions: selectOptions.filter(option => !option.checked),
-				});
+		if (key.return && onSubmitted) {
+			onSubmitted({
+				selectedOptions: selectOptions.filter(option => option.checked),
+				unselectedOptions: selectOptions.filter(option => !option.checked),
+			});
 		}
 	});
 
-	const handleCheckboxChange = ({label, checked}: CheckboxEventParams) => {
-		const focusedOption = selectOptions.find(
-			option => option.label === label,
-		) as Option;
-		focusedOption.checked = checked;
-		updateSelectOptions(focusedOption);
-		onChanged && onChanged({changedOption: focusedOption});
+	const selectAllOptions = () => {
+		const isAllChecked =
+			selectOptions.filter(o => o.checked).length === options.length;
+		onChanged &&
+			onChanged({label: 'All options', value: 'all', checked: !isAllChecked});
+		setSelectOptions(
+			options.map(option => ({...option, checked: !isAllChecked})),
+		);
 	};
 
-	const updateSelectOptions = (changedOption: Option) => {
-		const modifiedSelectOptions = [...selectOptions].map(option => {
-			if (option.label === changedOption.label)
-				return {...option, checked: option.checked};
-			return option;
-		});
+	const selectOption = (label: string, newValue: boolean) => {
+		setSelectOptions(() =>
+			selectOptions.map(option => {
+				if (option.label === label) {
+					return {...option, checked: newValue};
+				}
+				return option;
+			}),
+		);
+	};
 
-		setSelectOptions(modifiedSelectOptions);
+	const handleCheckboxChange = ({label}: CheckboxEventParams) => {
+		const focusedOption = {
+			...(selectOptions.find(option => option.label === label) as Option),
+		};
+		const newValue = !focusedOption.checked;
+		selectOption(label, newValue);
+		onChanged && onChanged({...focusedOption, checked: newValue});
 	};
 
 	const hasOptions = selectOptions?.length > 0;
@@ -123,14 +114,18 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 				</Text>
 			)}
 			{hasOptions && (
-				<Box flexDirection="row" flexWrap="wrap" columnGap={5}>
-					{columnArray.map(columNo => (
-						<Column
-							key={columNo}
-							columnNo={columNo}
-							columItemCount={columnItemCount}
-							options={columnData[columNo] || []}
-							focusedIndex={focusedIndex}
+				<Box
+					flexDirection="column"
+					flexWrap="wrap"
+					height={columnHeight}
+					columnGap={5}
+				>
+					{selectOptions.map((option, index) => (
+						<Checkbox
+							key={option.value}
+							label={option.label}
+							checked={option.checked}
+							focused={focusedIndex === index}
 							onChanged={handleCheckboxChange}
 						/>
 					))}

@@ -21,7 +21,7 @@ const EventsExample = () => {
 			<BigText text="Demo: Events" font="tiny" colors={['blue']} />
 			<ResponsiveSelect
 				options={options}
-				onChanged={({changedOption}) => setLastChangedOption(changedOption)}
+				onChanged={changedOption => setLastChangedOption(changedOption)}
 				onSubmitted={({selectedOptions}) => setCheckedOptions(selectedOptions)}
 			/>
 			<Box flexDirection="column" marginTop={1}>
