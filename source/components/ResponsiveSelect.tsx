@@ -66,7 +66,7 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 
 		if (input.toLowerCase() === 'a') selectAllOptions();
 
-		if (key.return && onSubmitted) {
+		if (key.return && selectOptions.some(o => o.checked) && onSubmitted) {
 			onSubmitted({
 				selectedOptions: selectOptions.filter(option => option.checked),
 				unselectedOptions: selectOptions.filter(option => !option.checked),
