@@ -1,10 +1,13 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"outDir": "build",
+		"outDir": "dist",
 		"sourceMap": true
 	},
-	"include": ["source", "playground"],
+	"include": [
+		"source",
+		"playground"
+	],
 	"ts-node": {
 		"transpileOnly": true,
 		"files": true

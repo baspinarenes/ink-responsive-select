@@ -11,8 +11,8 @@
 	},
 	"type": "module",
 	"exports": {
-		"types": "./build/source/index.d.ts",
-		"default": "./build/source/index.js"
+		"types": "./dist/source/index.d.ts",
+		"default": "./dist/source/index.js"
 	},
 	"engines": {
 		"node": ">=16"
@@ -21,17 +21,17 @@
 		"build": "tsc",
 		"dev": "tsc --watch",
 		"test": "prettier --check . && xo && ava",
-		"publish:npm": "rm -rf build && npm run build && npm publish",
+		"publish:npm": "rm -rf dist && npm run build && npm publish",
 		"clear-terminal": "clear && printf \u001bc",
-		"demo:events": "tsc && npm run clear-terminal && node build/playground/events.js",
-		"demo:responsive": "tsc && npm run clear-terminal && node build/playground/responsive.js",
-		"demo:static": "tsc && npm run clear-terminal && node build/playground/static.js",
-		"demo:defaultValue": "tsc && npm run clear-terminal && node build/playground/default-value.js",
-		"demo:loading": "tsc && npm run clear-terminal && node build/playground/loading.js",
-		"demo:sorting": "tsc && npm run clear-terminal && node build/playground/sorting.js"
+		"demo:events": "npm run build && npm run clear-terminal && node dist/playground/events.js",
+		"demo:responsive": "npm run build && npm run clear-terminal && node dist/playground/responsive.js",
+		"demo:static": "npm run build && npm run clear-terminal && node dist/playground/static.js",
+		"demo:defaultValue": "npm run build && npm run clear-terminal && node dist/playground/default-value.js",
+		"demo:loading": "npm run build && npm run clear-terminal && node dist/playground/loading.js",
+		"demo:sorting": "npm run build && npm run clear-terminal && node dist/playground/sorting.js"
 	},
 	"files": [
-		"build"
+		"dist"
 	],
 	"keywords": [
 		"ink",
