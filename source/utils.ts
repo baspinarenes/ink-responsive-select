@@ -23,14 +23,11 @@ export function sortByAlphabetically(
 	a: string,
 	b: string,
 ) {
-	const sortByModifier = sortBy === 'desc' ? -1 : 1;
-
 	const parseParts = (str: string) => {
-		const regex = /(\d+|\D+)/g; // Sayıları ve harfleri ayıran regex
+		const regex = /(\d+|\D+)/g;
 		return str.match(regex) || [];
 	};
 
-	// Parçalara ayırma işlemi
 	const partsA = parseParts(a);
 	const partsB = parseParts(b);
 
@@ -41,14 +38,16 @@ export function sortByAlphabetically(
 		if (!isNaN(Number(partA)) && !isNaN(Number(partB))) {
 			const numA = Number(partA);
 			const numB = Number(partB);
-			if (numA !== numB) return sortByModifier * (numA - numB);
+			if (numA !== numB) return sortBy === 'asc' ? numA - numB : numB - numA;
 		} else {
 			if (partA !== partB)
-				return sortBy === 'desc'
+				return sortBy === 'asc'
 					? partA!.localeCompare(partB!)
 					: partB!.localeCompare(partA!);
 		}
 	}
 
-	return sortByModifier * (partsA.length - partsB.length);
+	return sortBy === 'asc'
+		? partsA.length - partsB.length
+		: partsB.length - partsA.length;
 }
