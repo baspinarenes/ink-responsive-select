@@ -5,18 +5,26 @@ import {Instructions} from './Insturctions.js';
 import {useDynamicColumn} from '../hooks/useDynamicColumn.js';
 import {Column} from './Column.js';
 import {CheckboxEventParams} from 'ink-checkbox';
+import {sortByAlphabetically} from '../utils.js';
 
 export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 	const {
 		options,
 		column = 'auto',
 		loading: loadingProps,
+		sortBy = false,
 		onChanged,
 		onSubmitted,
 	} = props;
 
+	const sortedOptions = sortBy
+		? options.sort((prev, curr) =>
+				sortByAlphabetically(sortBy, prev.label, curr.label),
+		  )
+		: options;
+
 	const [focusedIndex, setFocusedIndex] = useState(0);
-	const [selectOptions, setSelectOptions] = useState(options);
+	const [selectOptions, setSelectOptions] = useState(sortedOptions);
 	const {columnCount, columnItemCount, columnData} = useDynamicColumn(
 		selectOptions,
 		column,
@@ -36,14 +44,10 @@ export const ResponsiveSelect: React.FC<ResponsiveSelectProps> = props => {
 				: 'yellow',
 	};
 
-	useEffect(() => {
-		setSelectOptions(options);
-	}, [options]);
+	useEffect(() => setSelectOptions(sortedOptions), [options]);
 
 	useInput((input, key) => {
-		if (input === 'q' || key.escape || key.backspace) {
-			exit();
-		}
+		if (input === 'q' || key.escape || key.backspace) exit();
 
 		if (key.upArrow) {
 			setFocusedIndex(focusedIndex - 1 < 0 ? 0 : focusedIndex - 1);

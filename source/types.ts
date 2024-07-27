@@ -16,6 +16,7 @@ export type ResponsiveSelectChangedEventParams = {
 };
 
 export type ResponsiveSelectProps = {
+	sortBy?: 'desc' | 'asc';
 	options: Option[];
 	loading?:
 		| boolean

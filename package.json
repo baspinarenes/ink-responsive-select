@@ -27,7 +27,8 @@
 		"demo:responsive": "tsc && npm run clear-terminal && node build/playground/responsive.js",
 		"demo:static": "tsc && npm run clear-terminal && node build/playground/static.js",
 		"demo:defaultValue": "tsc && npm run clear-terminal && node build/playground/default-value.js",
-		"demo:loading": "tsc && npm run clear-terminal && node build/playground/loading.js"
+		"demo:loading": "tsc && npm run clear-terminal && node build/playground/loading.js",
+		"demo:sorting": "tsc && npm run clear-terminal && node build/playground/sorting.js"
 	},
 	"files": [
 		"build"
